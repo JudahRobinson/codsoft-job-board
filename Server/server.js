@@ -10,12 +10,11 @@ const PORT = process.env.PORT || 5050;
 // ✅ CORS Setup
 const corsOptions = {
   origin: [
+    "https://codsoft-job-board.netlify.app", // include this!
     "http://localhost:3000",
-    "http://localhost:3001",
-    "https://codsoft-job-board.vercel.app" // frontend deployed URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -34,8 +33,6 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB connected");
-    app.listen(PORT, () =>
-      console.log(`🚀 Server running on port ${PORT}`)
-    );
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   })
   .catch((err) => console.error("❌ MongoDB error:", err));
