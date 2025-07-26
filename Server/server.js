@@ -7,25 +7,29 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5050;
 
-// ✅ CORS Setup - Allow frontend on localhost:3000
+// ✅ CORS Setup
 const corsOptions = {
-  origin: "http://localhost:3000", // frontend dev origin
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://codsoft-job-board.vercel.app" // frontend deployed URL
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 };
 
-app.use(cors(corsOptions)); // Must be before routes
-app.use(express.json());    // To parse JSON bodies
+app.use(cors(corsOptions));
+app.use(express.json()); // Parse JSON bodies
 
-// ✅ Test Route
+// ✅ Test route
 app.get("/", (req, res) => {
   res.send("API is working 🎉");
 });
 
-// ✅ API Routes
+// ✅ Job routes
 app.use("/api/jobs", jobRoutes);
 
-// ✅ MongoDB Connection
+// ✅ MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
